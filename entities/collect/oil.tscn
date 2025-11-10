@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://g0e040stthql"]
+
+[ext_resource type="Texture2D" uid="uid://bde0fpa3d4pxu" path="res://entities/collect/oil.png" id="1_fslhj"]
+[ext_resource type="Script" uid="uid://e0emewnvsk8i" path="res://entities/collect/oil.gd" id="1_rh30t"]
+[ext_resource type="AudioStream" uid="uid://ba7aqifbcv7bi" path="res://sounds/jingle-bells-107671.mp3" id="3_byhqh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rh30t"]
+size = Vector2(72, 102)
+
+[node name="Oil" type="Area2D"]
+script = ExtResource("1_rh30t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_fslhj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_rh30t")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-43, -53, 88, 106)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_byhqh")
+bus = &"Sfx"

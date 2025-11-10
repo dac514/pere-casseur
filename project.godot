@@ -1,0 +1,57 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Père Casseur"
+run/main_scene="uid://efuf5x5ytthe"
+config/features=PackedStringArray("4.5", "Mobile")
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://o52td2wop8s5"
+config/icon="uid://bql8rb1fvs0an"
+
+[autoload]
+
+GameManager="*res://scenes/game_manager.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/stretch/mode="canvas_items"
+window/handheld/orientation=1
+
+[gui]
+
+theme/custom_font="uid://cbkn8v3j2mled"
+
+[internationalization]
+
+locale/translation_remaps={
+"res://assets/comic2.png": PackedStringArray("res://assets/comic2-fr.png:fr")
+}
+locale/translations=PackedStringArray("res://lang/text.fr.translation")
+
+[layer_names]
+
+2d_physics/layer_2="Gift"
+2d_physics/layer_3="Elf"
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

@@ -1,0 +1,85 @@
+[gd_scene load_steps=10 format=3 uid="uid://dj6pslwucoaxd"]
+
+[ext_resource type="Script" uid="uid://bv8kohbsl481s" path="res://entities/mob/mob.gd" id="1_qn42p"]
+[ext_resource type="Texture2D" uid="uid://htdf0aquqvaa" path="res://entities/mob/elves1.png" id="2_cobj6"]
+[ext_resource type="Texture2D" uid="uid://br5vlt5bu5qw8" path="res://entities/mob/elves2.png" id="3_ap0bf"]
+[ext_resource type="AudioStream" uid="uid://bsjcynac44hgd" path="res://sounds/witch_cackle.wav" id="3_xiqil"]
+
+[sub_resource type="Curve" id="Curve_fos5t"]
+_data = [Vector2(0, 0.94647056), 0.0, 0.0, 0, 0, Vector2(0.29970327, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_8x4lu"]
+offsets = PackedFloat32Array(0, 0.73617023, 1)
+colors = PackedColorArray(0.09019608, 0.34117648, 0.105882354, 1, 0.41568628, 0.89411765, 0.91764706, 1, 0.31764707, 0.56078434, 0.33333334, 1)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x2ey4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_cobj6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ap0bf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qn42p"]
+radius = 37.0
+height = 88.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xiqil"]
+radius = 36.0
+height = 88.0
+
+[node name="Mob" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_qn42p")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 60
+lifetime = 1.2
+preprocess = 0.2
+speed_scale = 1.5
+emission_shape = 1
+emission_sphere_radius = 41.91
+direction = Vector2(0, -1)
+spread = 35.0
+gravity = Vector2(0, 30)
+initial_velocity_min = 80.0
+initial_velocity_max = 300.0
+linear_accel_min = -96.95
+linear_accel_max = -96.95
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+scale_amount_curve = SubResource("Curve_fos5t")
+color_ramp = SubResource("Gradient_8x4lu")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_x2ey4")
+autoplay = "default"
+frame_progress = 0.8097927
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0, 8)
+shape = SubResource("CapsuleShape2D_qn42p")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
+rect = Rect2(-50, -42, 100, 94)
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 8)
+shape = SubResource("CapsuleShape2D_xiqil")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xiqil")
+bus = &"Sfx"

@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmsvht34ckid5"]
+
+[ext_resource type="Script" uid="uid://bvn47lwhbm8f3" path="res://entities/power/power_up_display.gd" id="1_6shcg"]
+[ext_resource type="PackedScene" uid="uid://cysd811sc3vd" path="res://entities/power/power4-texture.tscn" id="2_4a88y"]
+[ext_resource type="PackedScene" uid="uid://bxgd5847pqd2w" path="res://entities/health_bar/health_bar.tscn" id="2_6shcg"]
+
+[node name="Power" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -600.0
+offset_bottom = -1112.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6shcg")
+tier_number = 4
+
+[node name="TextureRect" parent="." instance=ExtResource("2_4a88y")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="HealthBar" parent="MarginContainer" instance=ExtResource("2_6shcg")]
+layout_mode = 2

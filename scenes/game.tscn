@@ -1,0 +1,291 @@
+[gd_scene load_steps=28 format=3 uid="uid://efuf5x5ytthe"]
+
+[ext_resource type="Script" uid="uid://dbme8tfcpqi0f" path="res://scenes/game.gd" id="1_e1j6l"]
+[ext_resource type="Texture2D" uid="uid://d260kiutu0y5a" path="res://assets/snow-bg-5.png" id="2_e1j6l"]
+[ext_resource type="Texture2D" uid="uid://bqpe2s1bruk7e" path="res://assets/house5.png" id="5_5newe"]
+[ext_resource type="Script" uid="uid://1g6p6n7fj7nu" path="res://scenes/elapsed_time.gd" id="5_iywne"]
+[ext_resource type="LabelSettings" uid="uid://cpv5m1yp4tu1b" path="res://scenes/counter.tres" id="5_u5sy4"]
+[ext_resource type="Script" uid="uid://70jyamb26xet" path="res://scenes/gifts_counter.gd" id="6_p57ef"]
+[ext_resource type="PackedScene" uid="uid://dpxmogqfho01q" path="res://entities/power/power1.tscn" id="8_gee14"]
+[ext_resource type="PackedScene" uid="uid://bcphaor40efwl" path="res://scenes/player.tscn" id="9_37s47"]
+[ext_resource type="PackedScene" uid="uid://l38crssx54rd" path="res://entities/power/power2.tscn" id="9_rysoc"]
+[ext_resource type="LabelSettings" uid="uid://t3m47um2mma3" path="res://scenes/stats.tres" id="10_37s47"]
+[ext_resource type="PackedScene" uid="uid://bmyo3lck1b3kd" path="res://entities/power/power3.tscn" id="10_ssvqc"]
+[ext_resource type="PackedScene" uid="uid://bmsvht34ckid5" path="res://entities/power/power4.tscn" id="11_264po"]
+[ext_resource type="PackedScene" uid="uid://ds0iivk1joxno" path="res://entities/power/power5.tscn" id="12_1kice"]
+[ext_resource type="PackedScene" uid="uid://bfpyy1f8cs4td" path="res://entities/power/power6.tscn" id="13_5newe"]
+[ext_resource type="PackedScene" uid="uid://c2yoh7q0h4sou" path="res://entities/power/power7.tscn" id="14_37s47"]
+[ext_resource type="PackedScene" uid="uid://5a1knlyxrcd" path="res://entities/power/power8.tscn" id="15_bt5mj"]
+[ext_resource type="PackedScene" uid="uid://c0sfgypl2q1ph" path="res://entities/power/power9.tscn" id="16_e1j6l"]
+[ext_resource type="PackedScene" uid="uid://c253x5st7kyrn" path="res://entities/power/power10.tscn" id="17_pl11u"]
+[ext_resource type="Shader" uid="uid://di86k4d1eqhmq" path="res://scenes/snow.gdshader" id="23_e1j6l"]
+[ext_resource type="Script" uid="uid://pwq0e7lrqb8s" path="res://scenes/message_bar.gd" id="24_e1j6l"]
+[ext_resource type="PackedScene" uid="uid://k2qanygu4gc" path="res://scenes/power_up_animator.tscn" id="26_bhx41"]
+[ext_resource type="AudioStream" uid="uid://cqemxpjhxn8g3" path="res://sounds/Mystery Mammal - Jingle Bells - Looped.ogg" id="27_qnb83"]
+[ext_resource type="Texture2D" uid="uid://bkpuowk8mbu2p" path="res://assets/gear1.png" id="27_sww3w"]
+[ext_resource type="Texture2D" uid="uid://b8hss46bqt06b" path="res://assets/gear2.png" id="28_suyxu"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_lnu2h"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_lbhrr"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pl11u"]
+shader = ExtResource("23_e1j6l")
+shader_parameter/rain_amount = 100.0
+shader_parameter/near_rain_length = 0.00999999977648
+shader_parameter/far_rain_length = 0.00999999977648
+shader_parameter/near_rain_width = 1.0
+shader_parameter/far_rain_width = 0.5
+shader_parameter/near_rain_transparency = 1.0
+shader_parameter/far_rain_transparency = 0.5
+shader_parameter/rain_color = Color(1, 1, 1, 1)
+shader_parameter/base_rain_speed = 0.10000000149012
+shader_parameter/additional_rain_speed = 0.10000000149012
+shader_parameter/slant = 1.0
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_e1j6l")
+
+[node name="SpawnCollectible" type="Timer" parent="."]
+
+[node name="SpawnEnemy" type="Timer" parent="."]
+
+[node name="Boundaries" type="StaticBody2D" parent="."]
+position = Vector2(360, 0)
+
+[node name="LeftLimit" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(-260, 0)
+shape = SubResource("WorldBoundaryShape2D_lnu2h")
+
+[node name="RightLimit" type="CollisionShape2D" parent="Boundaries"]
+position = Vector2(260, 0)
+shape = SubResource("WorldBoundaryShape2D_lbhrr")
+
+[node name="Houses" type="Parallax2D" parent="."]
+scroll_offset = Vector2(360, 0)
+repeat_size = Vector2(0, 1280)
+
+[node name="House1" type="Sprite2D" parent="Houses"]
+position = Vector2(-310, 105)
+texture = ExtResource("5_5newe")
+
+[node name="House2" type="Sprite2D" parent="Houses"]
+position = Vector2(-310, 318.333)
+texture = ExtResource("5_5newe")
+
+[node name="House3" type="Sprite2D" parent="Houses"]
+position = Vector2(-310, 531.667)
+texture = ExtResource("5_5newe")
+
+[node name="House4" type="Sprite2D" parent="Houses"]
+position = Vector2(-310, 745)
+texture = ExtResource("5_5newe")
+
+[node name="House5" type="Sprite2D" parent="Houses"]
+position = Vector2(-310, 958.333)
+texture = ExtResource("5_5newe")
+
+[node name="House6" type="Sprite2D" parent="Houses"]
+position = Vector2(-310, 1171.667)
+texture = ExtResource("5_5newe")
+
+[node name="House7" type="Sprite2D" parent="Houses"]
+position = Vector2(310, 105)
+texture = ExtResource("5_5newe")
+
+[node name="House8" type="Sprite2D" parent="Houses"]
+position = Vector2(310, 318.333)
+texture = ExtResource("5_5newe")
+
+[node name="House9" type="Sprite2D" parent="Houses"]
+position = Vector2(310, 531.667)
+texture = ExtResource("5_5newe")
+
+[node name="House10" type="Sprite2D" parent="Houses"]
+position = Vector2(310, 745)
+texture = ExtResource("5_5newe")
+
+[node name="House11" type="Sprite2D" parent="Houses"]
+position = Vector2(310, 958.333)
+texture = ExtResource("5_5newe")
+
+[node name="House12" type="Sprite2D" parent="Houses"]
+position = Vector2(310, 1171.667)
+texture = ExtResource("5_5newe")
+
+[node name="Snow" type="Parallax2D" parent="."]
+scroll_offset = Vector2(360, 0)
+repeat_size = Vector2(0, 1336)
+
+[node name="Snow" type="Sprite2D" parent="Snow"]
+unique_name_in_owner = true
+z_index = -99
+position = Vector2(0, 595)
+texture = ExtResource("2_e1j6l")
+
+[node name="Player" parent="." instance=ExtResource("9_37s47")]
+position = Vector2(360, 640)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="FlashOverlay" type="ColorRect" parent="HUD"]
+material = SubResource("ShaderMaterial_pl11u")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 20.0
+offset_top = 56.0
+offset_right = -20.0
+offset_bottom = 425.0
+grow_horizontal = 2
+
+[node name="Counters" type="HSplitContainer" parent="HUD/VBoxContainer"]
+layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="ElapsedTime" type="Label" parent="HUD/VBoxContainer/Counters"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "0:00"
+label_settings = ExtResource("5_u5sy4")
+script = ExtResource("5_iywne")
+
+[node name="GiftsCounter" type="Label" parent="HUD/VBoxContainer/Counters"]
+layout_mode = 2
+text = "8,200,000,000"
+label_settings = ExtResource("5_u5sy4")
+horizontal_alignment = 2
+script = ExtResource("6_p57ef")
+
+[node name="PowerUps" type="GridContainer" parent="HUD/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 0
+columns = 5
+
+[node name="Power1" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("8_gee14")]
+layout_mode = 2
+
+[node name="Power2" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("9_rysoc")]
+layout_mode = 2
+
+[node name="Power3" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("10_ssvqc")]
+layout_mode = 2
+
+[node name="Power4" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("11_264po")]
+layout_mode = 2
+
+[node name="Power5" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("12_1kice")]
+layout_mode = 2
+
+[node name="Power6" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("13_5newe")]
+layout_mode = 2
+
+[node name="Power7" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("14_37s47")]
+layout_mode = 2
+
+[node name="Power8" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("15_bt5mj")]
+layout_mode = 2
+
+[node name="Power9" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("16_e1j6l")]
+layout_mode = 2
+
+[node name="Power10" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("17_pl11u")]
+layout_mode = 2
+
+[node name="Stats" type="Label" parent="HUD/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1.00x | 1/sec"
+label_settings = ExtResource("10_37s47")
+horizontal_alignment = 1
+
+[node name="MessageBar" type="Control" parent="HUD"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -196.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 4
+script = ExtResource("24_e1j6l")
+
+[node name="ColorRect" type="ColorRect" parent="HUD/MessageBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="HUD/MessageBar/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "TIER 0: Solopreneur"
+label_settings = ExtResource("5_u5sy4")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PowerUpAnimator" parent="HUD" instance=ExtResource("26_bhx41")]
+
+[node name="MenuButton" type="TextureButton" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -70.0
+offset_top = -55.0
+offset_right = -20.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("27_sww3w")
+texture_hover = ExtResource("28_suyxu")
+
+[node name="StatsGameOver" type="Label" parent="HUD"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 120.0
+offset_bottom = 297.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Game Over"
+label_settings = ExtResource("10_37s47")
+horizontal_alignment = 1
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("27_qnb83")
+bus = &"Music"
+playback_type = 1
+parameters/looping = true
+
+[connection signal="button_up" from="HUD/MenuButton" to="." method="toggle_menu"]

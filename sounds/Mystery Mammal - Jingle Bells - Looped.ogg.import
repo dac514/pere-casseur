@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cqemxpjhxn8g3"
+path="res://.godot/imported/Mystery Mammal - Jingle Bells - Looped.ogg-2f58ad70039d24aaba7c58fa763c38df.oggvorbisstr"
+
+[deps]
+
+source_file="res://sounds/Mystery Mammal - Jingle Bells - Looped.ogg"
+dest_files=["res://.godot/imported/Mystery Mammal - Jingle Bells - Looped.ogg-2f58ad70039d24aaba7c58fa763c38df.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

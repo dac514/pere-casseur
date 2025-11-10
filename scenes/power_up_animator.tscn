@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://k2qanygu4gc"]
+
+[ext_resource type="Script" uid="uid://cljqwqexx7tfp" path="res://entities/power/power_up_animator.gd" id="1_nfo1u"]
+[ext_resource type="AudioStream" uid="uid://c1rq4ipeiyd3d" path="res://sounds/bell-fx-410608.mp3" id="2_nbplw"]
+
+[node name="PowerUpAnimator" type="Node"]
+script = ExtResource("1_nfo1u")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_nbplw")
+bus = &"Sfx"
