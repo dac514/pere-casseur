@@ -20,7 +20,11 @@ const POWER2B := preload("res://entities/power/power2b.png")
 # Preload particle scene for better performance
 const PARTICLE_TRAIL: PackedScene = preload("res://entities/power/particle_trail.tscn")
 
-const GIFT_SCENE = preload("res://entities/gift/gift.tscn")
+# Icons draw just under their gifts, and both stay under the HUD UI (z 0)
+const POWER_Z_INDEX: int = -2
+const GIFT_Z_INDEX: int = -1
+const DROP_SPEED: float = 300.0
+const DROP_SPREAD_X: float = 100.0
 
 # Pool of unlocked power-ups (indices into POWER_SCENES)
 var unlocked_powers: Array[int] = []
@@ -31,6 +35,11 @@ var spawn_timer: Timer
 # Track newly unlocked power-up to showcase it
 var newly_unlocked_power: int = -1
 var showcase_count: int = 0
+
+# Gifts dropped by flying power-ups, in screen space. Their motion is explicit (icon
+# speed + drop velocity + gravity) rather than physics bodies dragged by the icon,
+# which behaved differently on the web build and froze gifts dropped off screen.
+var gift_field: GiftField = GiftField.new(128)
 
 # Reference to parent container where animations will spawn
 @onready var animation_container: CanvasLayer = get_parent()
@@ -46,6 +55,9 @@ func _ready() -> void:
 	spawn_timer.one_shot = false
 	spawn_timer.timeout.connect(_spawn_random_power)
 	add_child(spawn_timer)
+
+	gift_field.z_index = GIFT_Z_INDEX
+	animation_container.add_child.call_deferred(gift_field)
 
 
 func _on_tier_unlocked(tier_number: int, _tier_name: String) -> void:
@@ -103,7 +115,7 @@ func _spawn_random_power() -> void:
 	var end_x: float = viewport_width + 200.0 if left_to_right else -200.0
 
 	power_instance.position = Vector2(start_x, random_y)
-	power_instance.z_index = -1
+	power_instance.z_index = POWER_Z_INDEX
 
 	# Flip for some textures
 	if tier_number == 2 and not left_to_right:
@@ -147,7 +159,8 @@ func _animate_power_across_screen(power: TextureRect, target_x: float) -> void:
 	var tween := create_tween()
 	tween.set_parallel(true)
 
-	# Move horizontally
+	# Move horizontally (linear, so this speed is constant; dropped gifts inherit it)
+	power.set_meta("velocity_x", (target_x - power.position.x) / duration)
 	tween.tween_property(power, "position:x", target_x, duration)
 
 	# Add slight vertical bobbing (sine wave pattern)
@@ -192,14 +205,9 @@ func _setup_gift_dropping(power: TextureRect, tier_number: int) -> void:
 
 
 func _drop_gift(power: TextureRect) -> void:
-	var gift: Gift = GIFT_SCENE.instantiate()
-
-	# Set initial velocity BEFORE adding to scene (Gift applies it in _ready())
-	var horizontal_variation: float = randf_range(-100, 100)
-	gift.initial_velocity = Vector2(horizontal_variation, 300)
-
-	# Position particles at the center of the TextureRect
-	gift.position = power.size / 2.0
-
-	# Add gift to game scene
-	power.add_child(gift)
+	# Released from the icon's centre (following its wobble), carrying the icon's
+	# speed so the gifts trail behind it in an arc as they fall
+	var horizontal_variation: float = randf_range(-DROP_SPREAD_X, DROP_SPREAD_X)
+	var icon_velocity_x: float = power.get_meta("velocity_x", 0.0)
+	var origin: Vector2 = power.get_global_transform() * (power.size / 2.0)
+	gift_field.spawn(origin, Vector2(icon_velocity_x + horizontal_variation, DROP_SPEED))
