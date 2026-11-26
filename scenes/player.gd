@@ -1,7 +1,5 @@
 class_name Player extends CharacterBody2D
 
-const GIFT_SCENE = preload("res://entities/gift/gift.tscn")
-
 const FRICTION: float = 0.925
 const MAX_FALL_SPEED: float = 420.0
 const HORIZONTAL_ACCEL: float = 1800.0
@@ -29,6 +27,8 @@ var hit_tween: Tween = null
 var shake_tween: Tween = null
 var alert_tween: Tween = null
 var alert_label: Label = null
+## All thrown gifts live here (one MultiMesh, no per-gift nodes)
+var gift_field: GiftField = GiftField.new()
 
 @onready var hit_zone: Area2D = $Area2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -45,6 +45,8 @@ func _ready() -> void:
 	GameManager.tier_unlocked.connect(_on_tier_unlocked)
 	alert_label = _make_alert_label()
 	add_child(alert_label)
+	# Sibling of Santa in the world (parent is still setting up during _ready)
+	get_parent().add_child.call_deferred(gift_field)
 
 
 ## "!" over Santa's head, reused for every alert. Drawn above the gift storm.
@@ -146,7 +148,6 @@ func _physics_process(delta: float) -> void:
 
 
 func throw_gift() -> void:
-	var gift: Gift = GIFT_SCENE.instantiate()
 	var throw_direction: int = -1 if sprite.flip_h else 1
 
 	# Create circular spread behind player
@@ -160,15 +161,12 @@ func throw_gift() -> void:
 		# Override, centered to player
 		spawn_offset = Vector2(-30 * throw_direction, -10)
 
-	gift.global_position = global_position + spawn_offset
-	gift.z_index = -2
-
 	var angle_variation: float = randf_range(-100, 0)
 	var speed_variation: float = randf_range(-50, 100)
 	var final_throw_speed: float = throw_speed + speed_variation
 
-	gift.initial_velocity = Vector2(final_throw_speed * throw_direction, throw_angle + angle_variation)
-	get_parent().add_child(gift)
+	var initial_velocity := Vector2(final_throw_speed * throw_direction, throw_angle + angle_variation)
+	gift_field.spawn(global_position + spawn_offset, initial_velocity)
 
 
 func game_over() -> void:
