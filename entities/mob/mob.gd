@@ -9,10 +9,26 @@ const WOBBLE_SPEED: float = 9.0
 const BUMP_SPEED: float = 23.0
 const BUMP_HEIGHT: float = 2.5
 const MAX_STRETCH: float = 0.18
+# Elves ride the snow under the airborne gifts (z -2) but above collectibles (z -9)
+const GROUND_Z_INDEX: int = -3
+# Warning cues: they must read through the late-tier gift storm, so they live
+# above the gifts and get stronger with the tier
+const MIN_CUE_INTENSITY: float = 0.35
+const EDGE_WARNING_Y: float = 22.0
+const EDGE_WARNING_MARGIN: float = 40.0
+const EDGE_WARNING_RANGE: float = 400.0  # px above the screen where the warning starts growing
+const ELF_HALF_HEIGHT: float = 50.0
+const ALERT_TIME_TO_IMPACT: float = 0.9  # seconds before reaching Santa that "!" pops
+const HIT_REACH_X: float = 90.0  # horizontal distance at which the elf would hit Santa
+const WARNING_COLOR: Color = Color(0.9, 0.1, 0.1)
 
 var is_hit: bool = false
 var slide_time: float = randf() * TAU
 var snow_spray: CPUParticles2D = null
+var player: Player = null
+var cue_intensity: float = 1.0
+var edge_warning: Node2D = null
+var has_alerted_player: bool = false
 
 @onready var hit_zone: Area2D = $Area2D
 @onready var sprite_2d: AnimatedSprite2D = $Sprite2D
@@ -25,6 +41,21 @@ func _ready() -> void:
 	hit_zone.area_entered.connect(_hit_something)
 	snow_spray = _make_snow_spray()
 	add_child(snow_spray)
+	z_index = GROUND_Z_INDEX
+
+	# Cache references once; no per-frame lookups
+	var tier_ratio: float = clampf(float(GameManager.current_tier) / float(GameManager.NUM_TIERS - 2), 0.0, 1.0)
+	cue_intensity = lerpf(MIN_CUE_INTENSITY, 1.0, tier_ratio)
+	var game: Game = get_tree().get_first_node_in_group(Game.GROUP) as Game
+	if game:
+		player = game.player
+		edge_warning = _make_edge_warning()
+		edge_warning.visible = false
+		game.hud.add_child(edge_warning)
+
+
+func _exit_tree() -> void:
+	_remove_edge_warning()
 
 
 func _physics_process(delta: float) -> void:
@@ -32,6 +63,64 @@ func _physics_process(delta: float) -> void:
 	velocity.y = min(MAX_FALL_SPEED, velocity.y)
 	move_and_slide()
 	_animate_slide(delta)
+	_update_edge_warning()
+	_check_alert_player()
+
+
+## Pulsing chevron on the top edge while the elf is still above the screen.
+func _update_edge_warning() -> void:
+	if edge_warning == null:
+		return
+	var screen_pos: Vector2 = get_global_transform_with_canvas().origin
+	if screen_pos.y > ELF_HALF_HEIGHT:
+		# Elf is on screen now; the "!" over Santa takes over
+		_remove_edge_warning()
+		return
+
+	var view_width: float = get_viewport_rect().size.x
+	var closeness: float = 1.0 - clampf(-screen_pos.y / EDGE_WARNING_RANGE, 0.0, 1.0)
+	var pulse: float = 1.0 + 0.15 * sin(slide_time * 14.0)
+	edge_warning.visible = true
+	edge_warning.position = Vector2(
+		clampf(screen_pos.x, EDGE_WARNING_MARGIN, view_width - EDGE_WARNING_MARGIN), EDGE_WARNING_Y
+	)
+	edge_warning.scale = Vector2.ONE * lerpf(0.6, 1.1, closeness) * pulse
+	edge_warning.modulate.a = cue_intensity * lerpf(0.5, 1.0, closeness)
+
+
+## Pops "!" over Santa once, shortly before this elf would reach him.
+func _check_alert_player() -> void:
+	if has_alerted_player or player == null:
+		return
+	var gap_y: float = player.global_position.y - global_position.y
+	var closing_speed: float = velocity.y - player.fall_speed
+	if gap_y <= 0.0 or closing_speed <= 0.0:
+		return
+	if absf(player.global_position.x - global_position.x) > HIT_REACH_X:
+		return
+	if gap_y / closing_speed < ALERT_TIME_TO_IMPACT:
+		has_alerted_player = true
+		player.warn_incoming(cue_intensity)
+
+
+func _remove_edge_warning() -> void:
+	if is_instance_valid(edge_warning):
+		edge_warning.queue_free()
+	edge_warning = null
+
+
+## Downward chevron with a dark rim, built from two polygons (no textures/shaders).
+func _make_edge_warning() -> Node2D:
+	var root := Node2D.new()
+	var rim := Polygon2D.new()
+	rim.polygon = PackedVector2Array([Vector2(-26, -16), Vector2(26, -16), Vector2(0, 22)])
+	rim.color = Color(0.1, 0.0, 0.0)
+	root.add_child(rim)
+	var fill := Polygon2D.new()
+	fill.polygon = PackedVector2Array([Vector2(-19, -11), Vector2(19, -11), Vector2(0, 14)])
+	fill.color = WARNING_COLOR
+	root.add_child(fill)
+	return root
 
 
 func _animate_slide(delta: float) -> void:
@@ -83,13 +172,14 @@ func _on_screen_exited() -> void:
 func _hit_something(area: Area2D) -> void:
 	if is_hit:
 		return
-	var player: Player = area.get_parent() as Player
-	if player == null:
+	var santa: Player = area.get_parent() as Player
+	if santa == null:
 		return
 
 	# Only hit once: the elf stays alive while it tumbles away
 	is_hit = true
 	hit_zone.set_deferred("monitoring", false)
+	_remove_edge_warning()
 
 	GameManager.mob_hit()
 	audio_stream_player.play()
@@ -97,9 +187,9 @@ func _hit_something(area: Area2D) -> void:
 	remove_child(audio_stream_player)
 	get_parent().add_child(audio_stream_player)
 
-	player.take_hit(global_position)
-	Fx.burst(get_parent() as Node2D, global_position.lerp(player.global_position, 0.5), IMPACT_COLOR, 22, 320.0)
-	_ricochet(player.global_position)
+	santa.take_hit(global_position)
+	Fx.burst(get_parent(), global_position.lerp(santa.global_position, 0.5), IMPACT_COLOR, 22, 320.0)
+	_ricochet(santa.global_position)
 
 
 func _ricochet(from_pos: Vector2) -> void:

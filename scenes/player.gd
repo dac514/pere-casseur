@@ -9,6 +9,8 @@ const KNOCKBACK_SPEED: float = 350.0
 const KNOCKBACK_DECAY: float = 1400.0
 const SHAKE_STRENGTH: float = 12.0
 const HIT_COLOR: Color = Color(1.0, 0.25, 0.25)
+const ALERT_OFFSET: Vector2 = Vector2(0, -105)
+const ALERT_HOLD_TIME: float = 0.6
 
 var fall_speed: float = 150.0
 var horizontal_speed: float = 300.0
@@ -25,6 +27,8 @@ var knockback_x: float = 0.0
 var pickup_tween: Tween = null
 var hit_tween: Tween = null
 var shake_tween: Tween = null
+var alert_tween: Tween = null
+var alert_label: Label = null
 
 @onready var hit_zone: Area2D = $Area2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -39,6 +43,57 @@ func _ready() -> void:
 	gift_timer.start(gift_interval)
 	hit_zone.area_entered.connect(_on_collectible_collected)
 	GameManager.tier_unlocked.connect(_on_tier_unlocked)
+	alert_label = _make_alert_label()
+	add_child(alert_label)
+
+
+## "!" over Santa's head, reused for every alert. Drawn above the gift storm.
+func _make_alert_label() -> Label:
+	var settings := LabelSettings.new()
+	settings.font_size = 64
+	settings.font_color = HIT_COLOR
+	settings.outline_size = 12
+	settings.outline_color = Color.BLACK
+
+	var label := Label.new()
+	label.text = "!"
+	label.label_settings = settings
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.size = Vector2(60, 80)
+	label.position = ALERT_OFFSET - label.size / 2.0
+	label.pivot_offset = label.size / 2.0
+	label.z_index = 4
+	label.visible = false
+	return label
+
+
+## Called by Mob shortly before an elf would reach Santa.
+## Intensity (0..1) scales with the tier: subtle early, loud when the screen is full of gifts.
+func warn_incoming(intensity: float) -> void:
+	if alert_tween:
+		alert_tween.kill()
+	alert_label.visible = true
+	alert_label.modulate = Color(1, 1, 1, lerpf(0.6, 1.0, intensity))
+	alert_label.scale = Vector2.ZERO
+	var peak: float = lerpf(1.0, 1.4, intensity)
+
+	alert_tween = create_tween()
+	alert_tween.tween_property(alert_label, "scale", Vector2.ONE * peak, 0.1).set_trans(Tween.TRANS_BACK).set_ease(
+		Tween.EASE_OUT
+	)
+	alert_tween.tween_property(alert_label, "scale", Vector2.ONE * peak * 0.85, 0.08)
+	alert_tween.tween_property(alert_label, "scale", Vector2.ONE * peak, 0.08)
+	alert_tween.tween_interval(ALERT_HOLD_TIME - 0.26)
+	alert_tween.tween_property(alert_label, "modulate:a", 0.0, 0.15)
+	alert_tween.tween_callback(alert_label.hide)
+
+
+func _hide_alert() -> void:
+	if alert_tween:
+		alert_tween.kill()
+	alert_label.visible = false
 
 
 func _input(event: InputEvent) -> void:
@@ -176,6 +231,7 @@ func take_hit(from_pos: Vector2) -> void:
 	if away == 0.0:
 		away = 1.0 if randf() > 0.5 else -1.0
 	knockback_x = away * KNOCKBACK_SPEED
+	_hide_alert()
 
 	Fx.popup_text(get_parent() as Node2D, global_position + Vector2(0, -70), "-5%", HIT_COLOR)
 
