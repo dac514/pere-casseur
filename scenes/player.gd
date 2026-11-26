@@ -5,6 +5,10 @@ const GIFT_SCENE = preload("res://entities/gift/gift.tscn")
 const FRICTION: float = 0.925
 const MAX_FALL_SPEED: float = 420.0
 const HORIZONTAL_ACCEL: float = 1800.0
+const KNOCKBACK_SPEED: float = 350.0
+const KNOCKBACK_DECAY: float = 1400.0
+const SHAKE_STRENGTH: float = 12.0
+const HIT_COLOR: Color = Color(1.0, 0.25, 0.25)
 
 var fall_speed: float = 150.0
 var horizontal_speed: float = 300.0
@@ -17,6 +21,10 @@ var default_smoke_lifetime: float = 3.0
 var default_fall_speed: float = 150.0
 var elapsed_time: float = 0.0
 var target_x: float = -1.0
+var knockback_x: float = 0.0
+var pickup_tween: Tween = null
+var hit_tween: Tween = null
+var shake_tween: Tween = null
 
 @onready var hit_zone: Area2D = $Area2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -24,6 +32,7 @@ var target_x: float = -1.0
 @onready var gift_timer: Timer = $GiftTimer
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var smoke: GPUParticles2D = $Smoke
+@onready var camera: Camera2D = $Camera2D
 
 
 func _ready() -> void:
@@ -70,6 +79,10 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = true
 		smoke.position = Vector2(-50, 0)
 
+	# Knockback from elf hits (applied after facing so Santa doesn't flip)
+	velocity.x += knockback_x
+	knockback_x = move_toward(knockback_x, 0.0, KNOCKBACK_DECAY * delta)
+
 	velocity.y = fall_speed
 
 	move_and_slide()
@@ -114,17 +127,92 @@ func _on_gift_timer_timeout() -> void:
 
 
 func _on_collectible_collected(area: Area2D) -> void:
+	if not area is Collectible:
+		return
+	var collectible: Collectible = area as Collectible
+
 	# Check what type of collectible was collected
-	var scene_path: String = area.scene_file_path
-	if scene_path == "res://entities/collect/fuel.tscn":
-		GameManager.collect_fuel(area)
+	if collectible is Fuel:
+		GameManager.collect_fuel(collectible as Fuel)
 		_smoke_boost(1.0, 0.7, 1.7)
-	elif scene_path == "res://entities/collect/oil.tscn":
-		GameManager.collect_oil(area)
+		_play_pickup_feedback(collectible.burst_color, "+10%")
+	elif collectible is Oil:
+		GameManager.collect_oil(collectible as Oil)
 		_smoke_boost(1.0, 0.9, 2.0)
-	elif scene_path == "res://entities/collect/bribe.tscn":
-		GameManager.collect_bribe(area)
+		_play_pickup_feedback(collectible.burst_color, "+25%")
+	elif collectible is Bribe:
+		GameManager.collect_bribe(collectible as Bribe)
 		_smoke_boost(default_smoke_amount, default_smoke_lifetime, 1.5)
+		_play_pickup_feedback(collectible.burst_color, "+50%")
+
+
+func _play_pickup_feedback(color: Color, text: String) -> void:
+	# Instant impact on contact; the item itself then flies to the multiplier
+	Fx.burst(self, global_position, color, 18, 220.0, true)
+	# Fire sparks blast out of the exhaust (smoke sits behind Santa, on the side he's leaving)
+	var exhaust_dir := Vector2(signf(smoke.position.x), -0.35).normalized()
+	Fx.fire_sparks(self, smoke.global_position, exhaust_dir)
+	Fx.popup_text(get_parent() as Node2D, global_position + Vector2(0, -70), text, color.lightened(0.3))
+
+	# Don't stomp on the hit reaction
+	if hit_tween and hit_tween.is_running():
+		return
+
+	if pickup_tween:
+		pickup_tween.kill()
+	pickup_tween = create_tween()
+	pickup_tween.set_parallel(true)
+	pickup_tween.tween_property(sprite, "scale", Vector2(1.25, 0.8), 0.06)
+	pickup_tween.tween_property(sprite, "modulate", color.lightened(0.5), 0.06)
+	pickup_tween.chain().tween_property(sprite, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_ELASTIC).set_ease(
+		Tween.EASE_OUT
+	)
+	pickup_tween.tween_property(sprite, "modulate", Color.WHITE, 0.25)
+
+
+## Called by Mob when an elf slams into Santa.
+func take_hit(from_pos: Vector2) -> void:
+	var away: float = signf(global_position.x - from_pos.x)
+	if away == 0.0:
+		away = 1.0 if randf() > 0.5 else -1.0
+	knockback_x = away * KNOCKBACK_SPEED
+
+	Fx.popup_text(get_parent() as Node2D, global_position + Vector2(0, -70), "-5%", HIT_COLOR)
+
+	# Hit always wins over the pickup squash
+	if pickup_tween:
+		pickup_tween.kill()
+	if hit_tween:
+		hit_tween.kill()
+
+	hit_tween = create_tween()
+	hit_tween.set_parallel(true)
+	# Impact: tilt + shove away from the elf, squash
+	hit_tween.tween_property(sprite, "rotation", deg_to_rad(20.0) * away, 0.06)
+	hit_tween.tween_property(sprite, "position:x", 20.0 * away, 0.06)
+	hit_tween.tween_property(sprite, "scale", Vector2(0.8, 1.2), 0.06)
+	# Recover with a wobble while flickering red
+	hit_tween.chain().tween_property(sprite, "rotation", 0.0, 0.5).set_trans(Tween.TRANS_ELASTIC).set_ease(
+		Tween.EASE_OUT
+	)
+	hit_tween.tween_property(sprite, "position:x", 0.0, 0.5).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	hit_tween.tween_property(sprite, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	hit_tween.tween_method(_hit_flicker, 0.0, 1.0, 0.4)
+	hit_tween.chain().tween_property(sprite, "modulate", Color.WHITE, 0.0)
+
+	if shake_tween:
+		shake_tween.kill()
+	shake_tween = create_tween()
+	shake_tween.tween_method(_shake_camera, 1.0, 0.0, 0.3)
+	shake_tween.tween_property(camera, "offset", Vector2.ZERO, 0.0)
+
+
+func _hit_flicker(t: float) -> void:
+	sprite.modulate = HIT_COLOR if int(t * 6.0) % 2 == 0 else Color.WHITE
+
+
+func _shake_camera(strength: float) -> void:
+	camera.offset = Vector2(randf_range(-1.0, 1.0) * 0.5, randf_range(-1.0, 1.0)) * SHAKE_STRENGTH * strength
 
 
 func _smoke_boost(amount_ratio: float, lifetime: float, fall_speed_multiplier: float) -> void:

@@ -1,5 +1,6 @@
-extends Node2D
+class_name Game extends Node2D
 
+const GROUP: StringName = &"game"
 const FUEL_SCENE: PackedScene = preload("res://entities/collect/fuel.tscn")
 const OIL_SCENE: PackedScene = preload("res://entities/collect/oil.tscn")
 const BRIBE_SCENE: PackedScene = preload("res://entities/collect/bribe.tscn")
@@ -27,6 +28,8 @@ var smokestacks: Sprite2D = null
 var menu: Menu = null
 var intro: Intro = null
 var has_game_started: bool = false
+var stats_tween: Tween = null
+var pending_stats: String = ""
 
 @onready var boundaries: StaticBody2D = $Boundaries
 @onready var stats: Label = %Stats
@@ -45,6 +48,8 @@ var has_game_started: bool = false
 
 
 func _ready() -> void:
+	add_to_group(GROUP)
+
 	# Show menu at startup for language selection
 	toggle_menu()
 
@@ -149,7 +154,40 @@ func _reset_spawn_enemy_timer() -> void:
 
 
 func _on_stats_updated(info: String) -> void:
+	if info.begins_with("+"):
+		# Collectible: revealed when the item lands on the multiplier (see on_multiplier_hit)
+		pending_stats = info
+		return
+	# Elf hit: show right away, and drop any older "+Item" text still in flight
+	pending_stats = ""
 	stats.text = info
+	punch_stats(1.15, Player.HIT_COLOR)
+
+
+## Screen-space point that collected items fly into.
+func get_multiplier_anchor() -> Vector2:
+	return stats.get_global_rect().get_center()
+
+
+## Called by a Collectible when its flight reaches the multiplier.
+func on_multiplier_hit(color: Color) -> void:
+	if not pending_stats.is_empty():
+		stats.text = pending_stats
+		pending_stats = ""
+	punch_stats(1.3, color.lightened(0.3))
+	Fx.burst(hud, get_multiplier_anchor(), color, 14, 260.0)
+
+
+func punch_stats(strength: float, color: Color) -> void:
+	if stats_tween:
+		stats_tween.kill()
+	stats.pivot_offset = stats.size / 2.0
+	stats.scale = Vector2.ONE * strength
+	stats.modulate = color
+	stats_tween = create_tween()
+	stats_tween.set_parallel(true)
+	stats_tween.tween_property(stats, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	stats_tween.tween_property(stats, "modulate", Color.WHITE, 0.3)
 
 
 func _update_house_textures(tier: int) -> void:
@@ -243,6 +281,7 @@ func game_over() -> void:
 	game_stats += tr("Mob hits") + ": " + str(GameManager.mob_hits)
 
 	stats.text = ""
+	pending_stats = ""
 	stats_game_over.text = game_stats
 	stats_game_over.visible = true
 
