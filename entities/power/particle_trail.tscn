@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://ip4rnp0ptenn"]
+[gd_scene format=3 uid="uid://ip4rnp0ptenn"]
 
 [sub_resource type="Curve" id="Curve_fos5t"]
 _data = [Vector2(0, 0.94647056), 0.0, 0.0, 0, 0, Vector2(0.29970327, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -8,7 +8,7 @@ point_count = 3
 offsets = PackedFloat32Array(0, 0.3762058, 1)
 colors = PackedColorArray(1, 0.9019608, 0.3019608, 1, 1, 0.69803923, 0.2, 1, 1, 0.5019608, 0.09803922, 1)
 
-[node name="ParticleTrail" type="CPUParticles2D"]
+[node name="ParticleTrail" type="CPUParticles2D" unique_id=1765201462]
 amount = 60
 lifetime = 1.2
 preprocess = 0.2

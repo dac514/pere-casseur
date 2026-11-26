@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dj6pslwucoaxd"]
+[gd_scene format=3 uid="uid://dj6pslwucoaxd"]
 
 [ext_resource type="Script" uid="uid://bv8kohbsl481s" path="res://entities/mob/mob.gd" id="1_qn42p"]
 [ext_resource type="Texture2D" uid="uid://htdf0aquqvaa" path="res://entities/mob/elves1.png" id="2_cobj6"]
@@ -22,7 +22,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_ap0bf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 3.0
 }]
@@ -35,12 +35,12 @@ height = 88.0
 radius = 36.0
 height = 88.0
 
-[node name="Mob" type="CharacterBody2D"]
+[node name="Mob" type="CharacterBody2D" unique_id=1530489599]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_qn42p")
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=1598736686]
 amount = 60
 lifetime = 1.2
 preprocess = 0.2
@@ -59,27 +59,27 @@ scale_amount_max = 8.0
 scale_amount_curve = SubResource("Curve_fos5t")
 color_ramp = SubResource("Gradient_8x4lu")
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1526914669]
 sprite_frames = SubResource("SpriteFrames_x2ey4")
 autoplay = "default"
 frame_progress = 0.8097927
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1692065662]
 visible = false
 position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_qn42p")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1708011830]
 visible = false
 rect = Rect2(-50, -42, 100, 94)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1213794726]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=323954153]
 position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_xiqil")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=705164918]
 stream = ExtResource("3_xiqil")
 bus = &"Sfx"

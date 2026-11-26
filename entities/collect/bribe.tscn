@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://o667pc3b0gxy"]
+[gd_scene format=3 uid="uid://o667pc3b0gxy"]
 
 [ext_resource type="Script" uid="uid://ci36fjwu0tqv6" path="res://entities/collect/bribe.gd" id="1_jkq5k"]
 [ext_resource type="Texture2D" uid="uid://cu5v4wm2u2g58" path="res://entities/collect/bribe.png" id="1_shsrg"]
@@ -7,20 +7,20 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jkq5k"]
 size = Vector2(91, 73.5)
 
-[node name="Bribe" type="Area2D"]
+[node name="Bribe" type="Area2D" unique_id=737989523]
 script = ExtResource("1_jkq5k")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1609057302]
 texture = ExtResource("1_shsrg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1115045806]
 position = Vector2(0.5, 9.25)
 shape = SubResource("RectangleShape2D_jkq5k")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1855577832]
 position = Vector2(-44, -49)
 rect = Rect2(-14, -10, 116, 125)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1537784163]
 stream = ExtResource("3_8th8h")
 bus = &"Sfx"

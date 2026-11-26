@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bcphaor40efwl"]
+[gd_scene format=3 uid="uid://bcphaor40efwl"]
 
 [ext_resource type="Script" uid="uid://bkcmk2urfytp6" path="res://scenes/player.gd" id="1_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://88tvroelqs6" path="res://assets/santa1.png" id="2_dqkch"]
@@ -30,40 +30,40 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_smehm")
 }],
-"loop": true,
+"loop": 1,
 "name": &"snowboarding",
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1670303679]
 script = ExtResource("1_qhqgy")
 
-[node name="GiftTimer" type="Timer" parent="."]
+[node name="GiftTimer" type="Timer" parent="." unique_id=1405825827]
 autostart = true
 
-[node name="BoostTimer" type="Timer" parent="."]
+[node name="BoostTimer" type="Timer" parent="." unique_id=617669552]
 wait_time = 2.0
 one_shot = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=25968523]
 shape = SubResource("CapsuleShape2D_lnu2h")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=2096845476]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=529417533]
 shape = SubResource("CapsuleShape2D_e1j6l")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1173967808]
 z_index = 2
 sprite_frames = SubResource("SpriteFrames_iywne")
 animation = &"snowboarding"
 autoplay = "snowboarding"
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1738475952]
 limit_left = 360
 limit_right = 360
 
-[node name="Smoke" parent="." instance=ExtResource("3_qlg0r")]
+[node name="Smoke" parent="." unique_id=724695238 instance=ExtResource("3_qlg0r")]
 z_index = 1
 position = Vector2(50, 0)
 lifetime = 3.0

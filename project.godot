@@ -12,9 +12,9 @@ config_version=5
 
 config/name="Père Casseur"
 run/main_scene="uid://efuf5x5ytthe"
-config/features=PackedStringArray("4.5", "Mobile")
+config/features=PackedStringArray("4.8", "Mobile")
 boot_splash/bg_color=Color(1, 1, 1, 1)
-boot_splash/fullsize=false
+boot_splash/stretch_mode=0
 boot_splash/image="uid://o52td2wop8s5"
 config/icon="uid://bql8rb1fvs0an"
 

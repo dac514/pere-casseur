@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://efuf5x5ytthe"]
+[gd_scene format=3 uid="uid://efuf5x5ytthe"]
 
 [ext_resource type="Script" uid="uid://dbme8tfcpqi0f" path="res://scenes/game.gd" id="1_e1j6l"]
 [ext_resource type="Texture2D" uid="uid://d260kiutu0y5a" path="res://assets/snow-bg-5.png" id="2_e1j6l"]
@@ -45,92 +45,92 @@ shader_parameter/base_rain_speed = 0.10000000149012
 shader_parameter/additional_rain_speed = 0.10000000149012
 shader_parameter/slant = 1.0
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" unique_id=1996814802]
 script = ExtResource("1_e1j6l")
 
-[node name="SpawnCollectible" type="Timer" parent="."]
+[node name="SpawnCollectible" type="Timer" parent="." unique_id=1511496768]
 
-[node name="SpawnEnemy" type="Timer" parent="."]
+[node name="SpawnEnemy" type="Timer" parent="." unique_id=1275672757]
 
-[node name="Boundaries" type="StaticBody2D" parent="."]
+[node name="Boundaries" type="StaticBody2D" parent="." unique_id=620140912]
 position = Vector2(360, 0)
 
-[node name="LeftLimit" type="CollisionShape2D" parent="Boundaries"]
+[node name="LeftLimit" type="CollisionShape2D" parent="Boundaries" unique_id=775363118]
 position = Vector2(-260, 0)
 shape = SubResource("WorldBoundaryShape2D_lnu2h")
 
-[node name="RightLimit" type="CollisionShape2D" parent="Boundaries"]
+[node name="RightLimit" type="CollisionShape2D" parent="Boundaries" unique_id=708546690]
 position = Vector2(260, 0)
 shape = SubResource("WorldBoundaryShape2D_lbhrr")
 
-[node name="Houses" type="Parallax2D" parent="."]
+[node name="Houses" type="Parallax2D" parent="." unique_id=930136442]
 scroll_offset = Vector2(360, 0)
 repeat_size = Vector2(0, 1280)
 
-[node name="House1" type="Sprite2D" parent="Houses"]
+[node name="House1" type="Sprite2D" parent="Houses" unique_id=1410100808]
 position = Vector2(-310, 105)
 texture = ExtResource("5_5newe")
 
-[node name="House2" type="Sprite2D" parent="Houses"]
+[node name="House2" type="Sprite2D" parent="Houses" unique_id=964459237]
 position = Vector2(-310, 318.333)
 texture = ExtResource("5_5newe")
 
-[node name="House3" type="Sprite2D" parent="Houses"]
+[node name="House3" type="Sprite2D" parent="Houses" unique_id=363366587]
 position = Vector2(-310, 531.667)
 texture = ExtResource("5_5newe")
 
-[node name="House4" type="Sprite2D" parent="Houses"]
+[node name="House4" type="Sprite2D" parent="Houses" unique_id=1895625786]
 position = Vector2(-310, 745)
 texture = ExtResource("5_5newe")
 
-[node name="House5" type="Sprite2D" parent="Houses"]
+[node name="House5" type="Sprite2D" parent="Houses" unique_id=1998307435]
 position = Vector2(-310, 958.333)
 texture = ExtResource("5_5newe")
 
-[node name="House6" type="Sprite2D" parent="Houses"]
+[node name="House6" type="Sprite2D" parent="Houses" unique_id=1359107236]
 position = Vector2(-310, 1171.667)
 texture = ExtResource("5_5newe")
 
-[node name="House7" type="Sprite2D" parent="Houses"]
+[node name="House7" type="Sprite2D" parent="Houses" unique_id=1469250951]
 position = Vector2(310, 105)
 texture = ExtResource("5_5newe")
 
-[node name="House8" type="Sprite2D" parent="Houses"]
+[node name="House8" type="Sprite2D" parent="Houses" unique_id=227407322]
 position = Vector2(310, 318.333)
 texture = ExtResource("5_5newe")
 
-[node name="House9" type="Sprite2D" parent="Houses"]
+[node name="House9" type="Sprite2D" parent="Houses" unique_id=1116842659]
 position = Vector2(310, 531.667)
 texture = ExtResource("5_5newe")
 
-[node name="House10" type="Sprite2D" parent="Houses"]
+[node name="House10" type="Sprite2D" parent="Houses" unique_id=1771007332]
 position = Vector2(310, 745)
 texture = ExtResource("5_5newe")
 
-[node name="House11" type="Sprite2D" parent="Houses"]
+[node name="House11" type="Sprite2D" parent="Houses" unique_id=51785835]
 position = Vector2(310, 958.333)
 texture = ExtResource("5_5newe")
 
-[node name="House12" type="Sprite2D" parent="Houses"]
+[node name="House12" type="Sprite2D" parent="Houses" unique_id=713259216]
 position = Vector2(310, 1171.667)
 texture = ExtResource("5_5newe")
 
-[node name="Snow" type="Parallax2D" parent="."]
+[node name="Snow" type="Parallax2D" parent="." unique_id=445247112]
 scroll_offset = Vector2(360, 0)
 repeat_size = Vector2(0, 1336)
 
-[node name="Snow" type="Sprite2D" parent="Snow"]
+[node name="Snow" type="Sprite2D" parent="Snow" unique_id=443615064]
 unique_name_in_owner = true
 z_index = -99
 position = Vector2(0, 595)
 texture = ExtResource("2_e1j6l")
 
-[node name="Player" parent="." instance=ExtResource("9_37s47")]
+[node name="Player" parent="." unique_id=653729838 instance=ExtResource("9_37s47")]
 position = Vector2(360, 640)
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=739699962]
 
-[node name="FlashOverlay" type="ColorRect" parent="HUD"]
+[node name="FlashOverlay" type="ColorRect" parent="HUD" unique_id=479159091]
 material = SubResource("ShaderMaterial_pl11u")
 anchors_preset = 15
 anchor_right = 1.0
@@ -140,7 +140,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD" unique_id=858937490]
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 20.0
@@ -149,12 +149,12 @@ offset_right = -20.0
 offset_bottom = 425.0
 grow_horizontal = 2
 
-[node name="Counters" type="HSplitContainer" parent="HUD/VBoxContainer"]
+[node name="Counters" type="HSplitContainer" parent="HUD/VBoxContainer" unique_id=440070213]
 layout_mode = 2
 dragging_enabled = false
 dragger_visibility = 1
 
-[node name="ElapsedTime" type="Label" parent="HUD/VBoxContainer/Counters"]
+[node name="ElapsedTime" type="Label" parent="HUD/VBoxContainer/Counters" unique_id=329935833]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -163,58 +163,58 @@ text = "0:00"
 label_settings = ExtResource("5_u5sy4")
 script = ExtResource("5_iywne")
 
-[node name="GiftsCounter" type="Label" parent="HUD/VBoxContainer/Counters"]
+[node name="GiftsCounter" type="Label" parent="HUD/VBoxContainer/Counters" unique_id=1974468449]
 layout_mode = 2
 text = "8,200,000,000"
 label_settings = ExtResource("5_u5sy4")
 horizontal_alignment = 2
 script = ExtResource("6_p57ef")
 
-[node name="PowerUps" type="GridContainer" parent="HUD/VBoxContainer"]
+[node name="PowerUps" type="GridContainer" parent="HUD/VBoxContainer" unique_id=496678418]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 0
 columns = 5
 
-[node name="Power1" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("8_gee14")]
+[node name="Power1" parent="HUD/VBoxContainer/PowerUps" unique_id=1025060828 instance=ExtResource("8_gee14")]
 layout_mode = 2
 
-[node name="Power2" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("9_rysoc")]
+[node name="Power2" parent="HUD/VBoxContainer/PowerUps" unique_id=751665527 instance=ExtResource("9_rysoc")]
 layout_mode = 2
 
-[node name="Power3" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("10_ssvqc")]
+[node name="Power3" parent="HUD/VBoxContainer/PowerUps" unique_id=885441670 instance=ExtResource("10_ssvqc")]
 layout_mode = 2
 
-[node name="Power4" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("11_264po")]
+[node name="Power4" parent="HUD/VBoxContainer/PowerUps" unique_id=851940497 instance=ExtResource("11_264po")]
 layout_mode = 2
 
-[node name="Power5" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("12_1kice")]
+[node name="Power5" parent="HUD/VBoxContainer/PowerUps" unique_id=785612272 instance=ExtResource("12_1kice")]
 layout_mode = 2
 
-[node name="Power6" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("13_5newe")]
+[node name="Power6" parent="HUD/VBoxContainer/PowerUps" unique_id=1728868256 instance=ExtResource("13_5newe")]
 layout_mode = 2
 
-[node name="Power7" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("14_37s47")]
+[node name="Power7" parent="HUD/VBoxContainer/PowerUps" unique_id=57372686 instance=ExtResource("14_37s47")]
 layout_mode = 2
 
-[node name="Power8" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("15_bt5mj")]
+[node name="Power8" parent="HUD/VBoxContainer/PowerUps" unique_id=199685792 instance=ExtResource("15_bt5mj")]
 layout_mode = 2
 
-[node name="Power9" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("16_e1j6l")]
+[node name="Power9" parent="HUD/VBoxContainer/PowerUps" unique_id=99256978 instance=ExtResource("16_e1j6l")]
 layout_mode = 2
 
-[node name="Power10" parent="HUD/VBoxContainer/PowerUps" instance=ExtResource("17_pl11u")]
+[node name="Power10" parent="HUD/VBoxContainer/PowerUps" unique_id=1268217541 instance=ExtResource("17_pl11u")]
 layout_mode = 2
 
-[node name="Stats" type="Label" parent="HUD/VBoxContainer"]
+[node name="Stats" type="Label" parent="HUD/VBoxContainer" unique_id=303416269]
 unique_name_in_owner = true
 layout_mode = 2
 text = "1.00x | 1/sec"
 label_settings = ExtResource("10_37s47")
 horizontal_alignment = 1
 
-[node name="MessageBar" type="Control" parent="HUD"]
+[node name="MessageBar" type="Control" parent="HUD" unique_id=2077668084]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 12
@@ -228,7 +228,7 @@ grow_vertical = 0
 size_flags_vertical = 4
 script = ExtResource("24_e1j6l")
 
-[node name="ColorRect" type="ColorRect" parent="HUD/MessageBar"]
+[node name="ColorRect" type="ColorRect" parent="HUD/MessageBar" unique_id=1780029358]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -237,7 +237,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="HUD/MessageBar/ColorRect"]
+[node name="Label" type="Label" parent="HUD/MessageBar/ColorRect" unique_id=1143053399]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -250,9 +250,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="PowerUpAnimator" parent="HUD" instance=ExtResource("26_bhx41")]
+[node name="PowerUpAnimator" parent="HUD" unique_id=1563039070 instance=ExtResource("26_bhx41")]
 
-[node name="MenuButton" type="TextureButton" parent="HUD"]
+[node name="MenuButton" type="TextureButton" parent="HUD" unique_id=1321013103]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -267,7 +267,7 @@ grow_vertical = 0
 texture_normal = ExtResource("27_sww3w")
 texture_hover = ExtResource("28_suyxu")
 
-[node name="StatsGameOver" type="Label" parent="HUD"]
+[node name="StatsGameOver" type="Label" parent="HUD" unique_id=1058269828]
 unique_name_in_owner = true
 visible = false
 anchors_preset = 14
@@ -282,7 +282,7 @@ text = "Game Over"
 label_settings = ExtResource("10_37s47")
 horizontal_alignment = 1
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1329669507]
 stream = ExtResource("27_qnb83")
 bus = &"Music"
 playback_type = 1
