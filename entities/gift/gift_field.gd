@@ -4,9 +4,13 @@ class_name GiftField extends Node2D
 ## scenes meant ~9k nodes and thousands of instantiations per second on phones.
 ##
 ## Motion matches the RigidBody2D gift scene it replaces (gravity scale 2.5, project
-## default gravity and linear damp, integrated each physics tick). Gifts are dropped
-## when they leave the screen, like the scene's VisibleOnScreenEnabler2D did. Draw
-## order is preserved (newest on top) by compacting in place rather than swap-removing.
+## default gravity and linear damp, integrated each physics tick), but is computed
+## explicitly so it behaves the same on every renderer, platform and frame rate.
+## Gifts are dropped when they leave the screen. Draw order is preserved (newest on
+## top) by compacting in place rather than swap-removing.
+##
+## Works in the world (Santa's gifts) or inside a CanvasLayer (power-up gifts):
+## positions and culling use the canvas the field is drawn on.
 
 const GIFT_TEXTURE: Texture2D = preload("res://entities/gift/gift1.png")
 const GRAVITY_SCALE: float = 2.5
@@ -30,9 +34,10 @@ var _gravity: Vector2 = Vector2.ZERO
 var _linear_damp: float = 0.0
 
 
-func _init() -> void:
+func _init(initial_capacity: int = INITIAL_CAPACITY) -> void:
 	name = "GiftField"
-	# Positions are stored in world space; ignore any parent transform
+	# Positions are in the canvas's space (world, or screen in a CanvasLayer);
+	# ignore any parent transform
 	top_level = true
 	z_index = -2
 
@@ -44,7 +49,7 @@ func _init() -> void:
 	_multimesh = MultiMesh.new()
 	_multimesh.transform_format = MultiMesh.TRANSFORM_2D
 	_multimesh.mesh = _make_quad(GIFT_TEXTURE.get_size())
-	_allocate(INITIAL_CAPACITY)
+	_allocate(maxi(initial_capacity, 1))
 
 	var drawer := MultiMeshInstance2D.new()
 	drawer.multimesh = _multimesh
@@ -106,9 +111,9 @@ func _process(_delta: float) -> void:
 	_multimesh.custom_aabb = AABB(Vector3(view.position.x, view.position.y, -1.0), Vector3(view.size.x, view.size.y, 2.0))
 
 
+## Visible area in this field's canvas: the camera view in the world, the screen in a CanvasLayer.
 func _visible_world_rect() -> Rect2:
-	var viewport: Viewport = get_viewport()
-	return viewport.get_canvas_transform().affine_inverse() * Rect2(Vector2.ZERO, viewport.get_visible_rect().size)
+	return get_canvas_transform().affine_inverse() * Rect2(Vector2.ZERO, get_viewport_rect().size)
 
 
 func _allocate(new_capacity: int) -> void:
