@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://l38crssx54rd"]
+[gd_scene format=3 uid="uid://l38crssx54rd"]
 
 [ext_resource type="Script" uid="uid://bvn47lwhbm8f3" path="res://entities/power/power_up_display.gd" id="1_y2ix8"]
 [ext_resource type="PackedScene" uid="uid://cbvuet5v8cd35" path="res://entities/power/power2-texture.tscn" id="2_nehw4"]
 [ext_resource type="PackedScene" uid="uid://bxgd5847pqd2w" path="res://entities/health_bar/health_bar.tscn" id="2_y2ix8"]
 
-[node name="Power" type="VBoxContainer"]
+[node name="Power" type="VBoxContainer" unique_id=1503420941]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,15 +15,15 @@ grow_vertical = 2
 script = ExtResource("1_y2ix8")
 tier_number = 2
 
-[node name="TextureRect" parent="." instance=ExtResource("2_nehw4")]
+[node name="TextureRect" parent="." unique_id=9488539 instance=ExtResource("2_nehw4")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=497131248]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 10
 
-[node name="HealthBar" parent="MarginContainer" instance=ExtResource("2_y2ix8")]
+[node name="HealthBar" parent="MarginContainer" unique_id=1122211606 instance=ExtResource("2_y2ix8")]
 layout_mode = 2

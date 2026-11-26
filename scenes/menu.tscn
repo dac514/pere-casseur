@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://caulf00s2anls"]
+[gd_scene format=3 uid="uid://caulf00s2anls"]
 
 [ext_resource type="Script" uid="uid://c8l0mhjljltfi" path="res://scenes/menu.gd" id="1_yqeox"]
 [ext_resource type="FontFile" uid="uid://dfkrowemvmuq" path="res://assets/LuckiestGuy-Regular.ttf" id="2_vjb58"]
@@ -9,7 +9,7 @@ default_font_size = 36
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqeox"]
 bg_color = Color(0.69411767, 0.1254902, 0.14509805, 1)
 
-[node name="Menu" type="Control"]
+[node name="Menu" type="Control" unique_id=1125295551]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -20,7 +20,7 @@ grow_vertical = 2
 theme = SubResource("Theme_o5qli")
 script = ExtResource("1_yqeox")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=122410808]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yqeox")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=919771093]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -43,22 +43,22 @@ offset_bottom = 270.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer" unique_id=1564767017]
 layout_mode = 2
 theme_override_constants/margin_bottom = 48
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer/MarginContainer3"]
+[node name="TitleLabel" type="Label" parent="VBoxContainer/MarginContainer3" unique_id=755040489]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_vjb58")
 theme_override_font_sizes/font_size = 56
 text = "Scab Xmas"
 horizontal_alignment = 1
 
-[node name="LanguageLabel" type="Label" parent="VBoxContainer"]
+[node name="LanguageLabel" type="Label" parent="VBoxContainer" unique_id=1606033114]
 layout_mode = 2
 text = "Language"
 
-[node name="LanguageOptionButton" type="OptionButton" parent="VBoxContainer"]
+[node name="LanguageOptionButton" type="OptionButton" parent="VBoxContainer" unique_id=1470000834]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0
@@ -68,31 +68,31 @@ popup/item_0/id = 0
 popup/item_1/text = "English"
 popup/item_1/id = 1
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer" unique_id=1527440684]
 layout_mode = 2
 theme_override_constants/margin_top = 36
 
-[node name="MusicLabel" type="Label" parent="VBoxContainer/MarginContainer2"]
+[node name="MusicLabel" type="Label" parent="VBoxContainer/MarginContainer2" unique_id=1394669066]
 layout_mode = 2
 text = "Music"
 
-[node name="MusicSlider" type="HSlider" parent="VBoxContainer"]
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer" unique_id=180177033]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="SfxLabel" type="Label" parent="VBoxContainer"]
+[node name="SfxLabel" type="Label" parent="VBoxContainer" unique_id=1662807058]
 layout_mode = 2
 text = "Sound Effects"
 
-[node name="SfxSlider" type="HSlider" parent="VBoxContainer"]
+[node name="SfxSlider" type="HSlider" parent="VBoxContainer" unique_id=1686396307]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=2052537583]
 layout_mode = 2
 theme_override_constants/margin_top = 48
 
-[node name="Button" type="Button" parent="VBoxContainer/MarginContainer"]
+[node name="Button" type="Button" parent="VBoxContainer/MarginContainer" unique_id=1083110913]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Continue"

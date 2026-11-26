@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://1dlo2nwi60n7"]
+[gd_scene format=3 uid="uid://1dlo2nwi60n7"]
 
 [ext_resource type="Texture2D" uid="uid://b6v7obq5u362y" path="res://entities/power/power5.png" id="1_hwtd0"]
 
-[node name="TextureRect" type="TextureRect"]
+[node name="TextureRect" type="TextureRect" unique_id=1405802384]
 texture = ExtResource("1_hwtd0")

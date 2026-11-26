@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://g0e040stthql"]
+[gd_scene format=3 uid="uid://g0e040stthql"]
 
 [ext_resource type="Texture2D" uid="uid://bde0fpa3d4pxu" path="res://entities/collect/oil.png" id="1_fslhj"]
 [ext_resource type="Script" uid="uid://e0emewnvsk8i" path="res://entities/collect/oil.gd" id="1_rh30t"]
@@ -7,19 +7,19 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rh30t"]
 size = Vector2(72, 102)
 
-[node name="Oil" type="Area2D"]
+[node name="Oil" type="Area2D" unique_id=1955154903]
 script = ExtResource("1_rh30t")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=824025570]
 texture = ExtResource("1_fslhj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=283573098]
 position = Vector2(-1, -1)
 shape = SubResource("RectangleShape2D_rh30t")
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=174664843]
 rect = Rect2(-43, -53, 88, 106)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=326748662]
 stream = ExtResource("3_byhqh")
 bus = &"Sfx"

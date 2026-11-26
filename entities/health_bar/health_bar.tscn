@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxgd5847pqd2w"]
+[gd_scene format=3 uid="uid://bxgd5847pqd2w"]
 
 [ext_resource type="Texture2D" uid="uid://r2vxr8q2rf74" path="res://entities/health_bar/health_point.png" id="1_m7ell"]
 
@@ -25,7 +25,7 @@ texture_margin_top = 16.2304
 texture_margin_right = 4.0
 texture_margin_bottom = 8.18285
 
-[node name="HealthBar" type="ProgressBar"]
+[node name="HealthBar" type="ProgressBar" unique_id=1172800186]
 offset_right = 8.0
 offset_bottom = 24.41325
 theme_override_styles/background = SubResource("StyleBoxFlat_1l3ip")
