@@ -8,7 +8,7 @@ signal stats_updated(info: String)
 const IDLE_DURATION: float = 1440.0
 
 # Total gifts to deliver (ie. world population)
-const TOTAL_GIFTS: float = 8_200_000_000.0
+const TOTAL_GIFTS: float = 8_300_000_000.0
 
 # Number of tiers (including Tier 0)
 const NUM_TIERS: int = 11
@@ -49,7 +49,7 @@ var tier_gift_thresholds: Array[float] = []
 # Current tier
 var current_tier: int = 0
 
-# Gifts counter, counting down from 8.2 billion
+# Gifts counter, counting down from 8.3 billion
 var gifts_counter: float = TOTAL_GIFTS
 
 

@@ -7,7 +7,7 @@
 ---
 
 ## 🌍 High‑Level Concept
-*Père Casseur* is a satirical idle‑arcade hybrid where Santa Claus, reimagined as a grotesque capitalist pig caricature, must “save Christmas” after his elves go on strike. Instead of respecting labor, Santa doubles down on exploitation, fossil fuels, and global capitalism to deliver presents to **8.2 billion people in 24 hours** (compressed into a 24‑minute game session).
+*Père Casseur* is a satirical idle‑arcade hybrid where Santa Claus, reimagined as a grotesque capitalist pig caricature, must “save Christmas” after his elves go on strike. Instead of respecting labor, Santa doubles down on exploitation, fossil fuels, and global capitalism to deliver presents to **8.3 billion people in 24 hours** (compressed into a 24‑minute game session).
 
 The player snowboards downhill on a gas‑powered hoverboard, flinging presents left and right into houses that line the ski slope. As time passes, the hoverboard spews smoke, the snow melts, and the world visibly deteriorates.
 
@@ -19,7 +19,7 @@ The irony: the player “wins” by delivering all the presents, but the planet 
 - **Movement:** Santa snowboards downhill, moving left/right with limited downward drift.
 - **Delivery:** Gifts automatically arc into houses on either side.
 - **Power‑Ups:** Collected on the slope or unlocked via milestones, they accelerate delivery.
-- **Progression:** Presents counter ticks down from 8.2 billion to 0.
+- **Progression:** Presents counter ticks down from 8.3 billion to 0.
 - **Obstacles:** Slow Santa slightly, but never kill him.
 - **HUD:** Upper half of the screen displays unlocked power‑ups as icons/stats.
 

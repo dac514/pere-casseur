@@ -1,7 +1,7 @@
 # Père Casseur (Scab Claus) Development Guide
 
 ## Project Overview
-Mobile idle-arcade game built with **Godot 4.5** (GDScript). Portrait mode (720×1280), 24-minute gameplay session where a capitalist Santa delivers 8.2 billion gifts while the world deteriorates. French/English localization support.
+Mobile idle-arcade game built with **Godot 4.5** (GDScript). Portrait mode (720×1280), 24-minute gameplay session where a capitalist Santa delivers 8.3 billion gifts while the world deteriorates. French/English localization support.
 
 ## Architecture
 
@@ -27,7 +27,7 @@ signal stats_updated(info: String)
 
 ## Critical Game Constants
 Located in `scenes/game_manager.gd`:
-- `TOTAL_GIFTS: float = 8_200_000_000.0` - World population to deliver to
+- `TOTAL_GIFTS: float = 8_300_000_000.0` - World population to deliver to
 - `IDLE_DURATION: float = 1440.0` - Target 24-minute session length
 - `GROWTH_FACTOR: float = 0.013` - Calibrates exponential delivery scaling
 - `NUM_TIERS: int = 11` - Power-up unlock tiers (0-10)

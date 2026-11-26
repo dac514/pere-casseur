@@ -274,7 +274,7 @@ func game_over() -> void:
 	GameManager.stats_updated.disconnect(_on_stats_updated)
 
 	var game_stats: String = ""
-	game_stats += tr("8.2B gifts in") + " " + elapsed_time.text + "\n"
+	game_stats += tr("8.3B gifts in") + " " + elapsed_time.text + "\n"
 	game_stats += tr("Fuel collected") + ": " + str(GameManager.fuel_collected) + "\n"
 	game_stats += tr("Oil collected") + ": " + str(GameManager.oil_collected) + "\n"
 	game_stats += tr("Bribes collected") + ": " + str(GameManager.bribes_collected) + "\n"

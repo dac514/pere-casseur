@@ -165,7 +165,7 @@ script = ExtResource("5_iywne")
 
 [node name="GiftsCounter" type="Label" parent="HUD/VBoxContainer/Counters" unique_id=1974468449]
 layout_mode = 2
-text = "8,200,000,000"
+text = "8,300,000,000"
 label_settings = ExtResource("5_u5sy4")
 horizontal_alignment = 2
 script = ExtResource("6_p57ef")
